@@ -253,3 +253,17 @@ def contacts(request):
     contacts = Contact.objects.all()
     context= {"contacts": contacts, "neighbourhood": profile.neighbourhood}
     return render(request, "neighbour_app/contacts.html",context)
+
+
+@login_required(login_url="/accounts/login/")
+def search(request):
+    if 'query' in request.GET and request.GET["query"]:
+        search_term = request.GET.get("query")
+        searched_businesses = Business.objects.filter(name__icontains=search_term)
+        message = f"Search For: {search_term}"
+        context={"message": message, "businesses": searched_businesses}
+        return render(request, "neighbour_app/search.html", context)
+    else:
+        message = "You haven't searched for any term"
+        context= {"message": message}
+        return render(request, "neighbour_app/search.html",context)
