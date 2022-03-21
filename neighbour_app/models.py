@@ -75,3 +75,20 @@ class Neighbourhood(models.Model):
 
     def delete_neigborhood(self):
         self.save()
+
+    @classmethod
+    def delete_neighbourhood(cls, id):
+        cls.objects.filter(id=id).delete()
+
+    @classmethod
+    def update_neighbourhood(cls, id):
+        cls.objects.filter(id=id).update()
+
+    @classmethod
+    def search_by_name(cls, search_term):
+        hood = cls.objects.filter(name__icontains=search_term)
+        return hood
+
+
+    def __str__(self):
+        return self.name
