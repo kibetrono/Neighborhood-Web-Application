@@ -220,3 +220,26 @@ def save_contact(request):
     else:
         return render(request, "neighbour_app/new_profile.html")
 
+
+
+@login_required(login_url="/accounts/login/")
+def business(request):
+    current_user = request.user
+    profile = UserProfile.objects.filter(user_id=current_user.id).first()
+    if profile is None:
+        profile = UserProfile.objects.filter(
+            user_id=current_user.id).first() 
+        posts = Post.objects.filter(user_id=current_user.id)
+        locations = Location.objects.all()
+        neighbourhood = Neighbourhood.objects.all()
+        category = Category.objects.all()
+        businesses = Business.objects.filter(user_id=current_user.id)
+        contacts = Contact.objects.filter(user_id=current_user.id)
+        context= {"locations": locations, "neighbourhood": neighbourhood, "categories": category, "businesses": businesses, "contacts": contacts, "posts": posts}
+        return render(request, "neighbour_app/new_profile.html",context)
+    else:
+        neighbourhood = profile.neighbourhood
+        businesses = Business.objects.filter(neighbourhood=profile.neighbourhood)
+        context={"businesses": businesses}
+        return render(request, "neighbour_app/business.html", context)
+
