@@ -42,7 +42,7 @@ A django application where users can upload their neighbourhood posts as well as
 
 ## Live Link
 
-* [Click Here]() to view Neighborhood Application
+* [Click Here](https://kibbneighbour.herokuapp.com/) to view Neighborhood Application
 
 
 ## Contact Information
