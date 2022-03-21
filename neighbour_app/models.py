@@ -103,3 +103,17 @@ class UserProfile(models.Model):
     profile_pic = CloudinaryField('image')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering=['-updated_at','-created_at']
+
+    def save_userProfile(self):
+        self.save()
+
+  
+
+    def delete_userProfile(self):
+        self.delete()
+
+    def __str__(self):
+        return self.name
