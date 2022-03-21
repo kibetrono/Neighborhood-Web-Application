@@ -243,3 +243,13 @@ def business(request):
         context={"businesses": businesses}
         return render(request, "neighbour_app/business.html", context)
 
+
+
+@login_required(login_url="/accounts/login/")
+def contacts(request):
+    current_user = request.user
+    profile = UserProfile.objects.filter(user_id=current_user.id).first()
+    
+    contacts = Contact.objects.all()
+    context= {"contacts": contacts, "neighbourhood": profile.neighbourhood}
+    return render(request, "neighbour_app/contacts.html",context)
