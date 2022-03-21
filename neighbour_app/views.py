@@ -37,3 +37,60 @@ def update_profile_form(request):
     locations = Location.objects.all()
     context={'locations': locations, 'neighbourhood': neighbourhood}
     return render(request, 'neighbour_app/updateProfile.html',context)
+
+
+@login_required(login_url='/accounts/login/')
+def update_profile(request):
+    if request.method == "POST":
+        current_user = request.user
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        username = request.POST["username"]
+        email = request.POST["email"]
+        name = request.POST["first_name"] + " " + request.POST["last_name"]
+        neighbourhood = request.POST["neighbourhood"]
+        location = request.POST["location"]
+        if location == "":
+            location = None
+        else:
+            location = Location.objects.get(name=location)
+
+        if neighbourhood == "":
+            neighbourhood = None
+        else:
+            neighbourhood = Neighbourhood.objects.get(name=neighbourhood)
+        profile_image = request.FILES["profile_pic"]
+        profile_image = cloudinary.uploader.upload(profile_image)
+        profile_url = profile_image["url"]
+        user = User.objects.get(id=current_user.id)
+        if UserProfile.objects.filter(user_id=current_user.id).exists():
+
+            profile = UserProfile.objects.get(user_id=current_user.id)
+            profile.profile_pic = profile_url
+            profile.neighbourhood = neighbourhood
+            profile.location = location
+            profile.save()
+        else:
+            profile = UserProfile(user_id=current_user.id,name=name,profile_pic=profile_url,neighbourhood=neighbourhood,location=location,)
+
+            profile.save_userProfile()
+
+        user.first_name = first_name
+        user.last_name = last_name
+        user.username = username
+        user.email = email
+
+        user.save()
+
+        return redirect("/profile",)
+
+    else:
+        return render(request, "neighbour_app/new_profile.html")
+
+
+@login_required(login_url='/accounts/login/')
+def addPost(request):
+    locations = Location.objects.all()
+    category = Category.objects.all()
+    context={'locations': locations,  'categories': category}
+    return render(request, 'neighbour_app/addpost.html',context)
