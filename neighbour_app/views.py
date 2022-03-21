@@ -148,3 +148,38 @@ def new_post(request):
     else:
         return render(request, "neighbour_app/new_profile.html")
 
+
+
+@login_required(login_url="/accounts/login/")
+def save_business(request):
+    if request.method == "POST":
+        current_user = request.user
+        name = request.POST["name"]
+        email = request.POST["email"]
+
+        profile = UserProfile.objects.filter(user_id=current_user.id).first()
+        if profile is None:
+            profile = UserProfile.objects.filter(
+                user_id=current_user.id).first()  
+            posts = Post.objects.filter(user_id=current_user.id)
+            locations = Location.objects.all()
+            neighbourhood = Neighbourhood.objects.all()
+            category = Category.objects.all()
+            businesses = Business.objects.filter(user_id=current_user.id)
+            contacts = Contact.objects.filter(user_id=current_user.id)
+            context={"locations": locations, "neighbourhood": neighbourhood, "categories": category, "businesses": businesses, "contacts": contacts, "posts": posts}
+            return render(request, "neighbour_app/new_profile.html",context)
+        else:
+            neighbourhood = profile.neighbourhood
+
+        if neighbourhood == "":
+            neighbourhood = None
+        else:
+            neighbourhood = Neighbourhood.objects.get(name=neighbourhood)
+
+        business = Business(user_id=current_user.id,name=name,email=email,neighbourhood=neighbourhood,)
+        business.create_business()
+
+        return redirect("/profile")
+    else:
+        return render(request, "neighbour_app/new_profile.html")
