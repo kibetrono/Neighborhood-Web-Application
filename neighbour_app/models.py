@@ -61,3 +61,17 @@ class Neighbourhood(models.Model):
 
     class Meta:
         ordering=['-updated_at','-created_at']
+
+
+    def save_neigborhood(self):
+        self.save()
+
+    def update_neigborhood(self,name,location,occupants_count,admin):
+        self.name=name
+        self.location=location
+        self.occupants_count=occupants_count
+        self.admin=admin
+        self.save()
+
+    def delete_neigborhood(self):
+        self.save()
