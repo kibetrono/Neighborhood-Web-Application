@@ -137,4 +137,21 @@ class Business(models.Model):
     class Meta:
         ordering=['-updated_at','-created_at']
 
+    def create_business(self):
+        self.save()
+
+    def update_business(self,name,email,description,user,neighbourhood):
+        self.name=name
+        self.email=email
+        self.description=description
+        self.user=user
+        self.neighbourhood=neighbourhood
+        self.save()
+
+    def delete_business(self):
+        self.delete()
+
     
+
+    def __str__(self):
+        return self.name
