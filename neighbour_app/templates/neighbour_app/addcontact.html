@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <form action="{% url 'save_new_contact' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="title">Name</label>
+            <input type="text" class="form-control" value="" name="name" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="title">Email</label>
+            <input type="email" class="form-control" value="" name="email" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="title">Phone</label>
+            <input type="number" class="form-control" value="" name="telephone" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Save Contact</button>
+     
+    </form>
+    </div>
+{% endblock content %}
+    

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container mt-5">
+
+        <div class="row mt-4">
+
+            <h2 class="text-center mb-5 headings">Businesses Within Your  Area
+            </h2>
+            {% for biz in businesses %}
+            <div class="col-md-12 col-lg-3">
+                <div class="card " style="border:2px solid #ddd;min-height:35vh" >
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize m-2">Business Name:{{ biz.name }}</h5>
+                        <br>
+                        <h6 class="card-subtitle mb-2  m-2">Owner: <span class="">{{ biz.user.first_name }}</span></h6>
+                        <br>
+                        <p>Posted on: {{biz.created_at | date}}</p>
+
+                        <a href="malto:{{ biz.email }}" class="card-link m-2">Email: <span class="text-bold text-primary">{{ biz.email }}</span> </a>
+                       <br>
+                       <br>
+                    </div>
+                  </div>
+            </div>
+
+            {% empty %}
+            <div class="col-md-12">
+                <div class="card mb-4 post-card">
+                    <div class="card-body text-center">
+                        <h6 class="fade-item mb-2 text-danger">No businesses found within your Neighborhood!!</h6>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container mt-5">
+
+        <div class="row mt-4">
+
+            <h2 class="text-center mb-5 headings">Contact Information Within Your Neighborhood: <br>({{neighbourhood}})
+            </h2>
+
+            
+            {% for biz in contacts %}
+            <div class="col-md-12 col-lg-3">
+                <div class="card" style="border:2px solid #ddd">
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize m-2">{{ biz.name }}</h5>
+                        <br>
+                        <h6 class="card-subtitle mb-2  m-2">Created By: <span class=" ">{{ biz.user.first_name }}</span></h6>
+                        <br>
+                        <a style="text-decoration: none;" href="malto:{{ biz.email }}" class="card-link m-2">Email: <span class="text-bold text-primary">{{ biz.email }}</span> </a>
+                       <br>
+                       <br>
+                       <a style="text-decoration: none;" class="card-link py-3">Telephone: <span class="">{{ biz.telephone }}</span> </a>
+                        <br>
+                    </div>
+                  </div>
+            </div>
+
+            {% empty %}
+            <div class="col-md-12">
+                <div class="card mb-4 post-card">
+                    <div class="card-body text-center">
+                        <h6 class="fade-item mb-2 text-danger">No contacts found within your Neighborhood!!</h6>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+<form action="{% url 'updateprofile' %}" method="POST"
+enctype="multipart/form-data">
+{% csrf_token %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label for="name">First Name</label>
+            <input type="text" class="form-control" id="first_name"
+                name="first_name" value="{{ user.first_name }}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label for="name">Last Name</label>
+            <input type="text" class="form-control" id="last_name"
+                name="last_name" value="{{ user.last_name }}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username"
+                name="username" value="{{ user.username }}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label for="email">Neighbourhood</label>
+            <select name="neighbourhood" id="neighbourhood"
+                class="form-control" required>
+                <option value="">Select Neighbourhood</option>
+                {% for neighbourhood in neighbourhood %}
+                <option value="{{ neighbourhood.name }}">
+                    {{neighbourhood.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- <div class="form-group mb-3">
+            <label for="contact">Contact</label>
+            <input type="text" class="form-control" id="contact"
+                name="contact" value="{{ profile.contact }}">
+        </div> -->
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email"
+                name="email" value="{{ user.email}}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label for="email">Location</label>
+            <select name="location" id="location" class="form-control"
+                required>
+                <option value="">Select Location</option>
+                {% for location in locations %}
+                <option value="{{ location.name }}">{{ location.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="form-group mb-3">
+    <label for="profile_pic">Profile Picture</label>
+    <input type="file" class="form-control" id="profile_pic"
+        name="profile_pic" required>
+</div>
+<button type="submit" class="btn btn-success">Update Account</button>
+
+
+</form>
+
+</div>
+
+{%endblock%}

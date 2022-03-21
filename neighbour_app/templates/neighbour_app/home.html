@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="container-fluid mt-5">
+
+    <div class="row mt-4">
+
+        <h2 class="text-center mb-5">Top Posts</h2>
+
+        {% for post in posts %}
+        <div class="col-md-12 col-lg-3">
+            <div class="card mb-4 post-card">
+                {% if post.image %}
+                <img style="max-height:30vh" src="{{ post.image.url }}" class="card-img-top" alt="Personal">
+                {% else %}
+                <img src="https://www.freeiconspng.com/uploads/no-image-icon-11.PNG" class="card-img-top"
+                    alt="Personal">
+                {% endif %}
+
+                <div class="card-body">
+                    <a style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#postModal{{ post.id }}" class="view-modal">
+                        <h3 class="fade-item mb-2">{{ post.title }}</h3>
+                        <div class="">
+                            <div>
+                                <p class="" >
+                                    Location: {{post.location }}
+                                </p>
+                            </div>
+                            <div>
+                                <p>Posted on:{{ post.created_at|date }}</p>
+
+                            </div>
+                        </div>
+                        <div></div>
+                        <div class="d-flejx justify-content-between mt-2">
+                            <div class="d-flex justify-content-start">
+                                <div>
+                                   
+                                </div>
+                                <div>
+                                   
+                                </div>
+                            </div>
+                            <div class="display-on-hover">
+
+
+                                <p class="btn btn-success">
+                                    View More
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal -->
+        <div class="modal fade" id="postModal{{ post.id }}" tabindex="-1" role="dialog"
+            aria-labelledby="profileModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                
+                    <div class="modal-body">
+                        <div class="">
+                            <div>
+                              <p>  Title: {{ post.title }}</p>
+                            </div>
+                            <div>
+                                <p class="" >
+                                    Location: {{post.location }}
+                                </p>
+                            </div>
+                            <div>
+                                <p>Posted on:{{ post.created_at|date }}</p>
+
+                            </div>
+                        </div>
+                        <p>
+                           Description:  {{ post.content }}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-md-12 col-lg-12">
+            <div class="card mb-4 post-card">
+                <div class="card-body text-center">
+                    <h4 class="fade-item mb-2 text-danger">No Posts within Your Area!!!</h4>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+
+
+
+    </div>
+</div>
+    
+{% endblock content %}
+    
