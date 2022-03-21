@@ -48,3 +48,16 @@ class Location(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+class Neighbourhood(models.Model):
+    name = models.CharField(max_length=70)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    occupants_count = models.IntegerField(default=0)
+    admin = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering=['-updated_at','-created_at']
