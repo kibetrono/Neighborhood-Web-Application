@@ -99,3 +99,10 @@ def addPost(request):
 def addBusiness(request):
     context={}
     return render(request, 'neighbour_app/addbusiness.html',context)
+
+
+
+@login_required(login_url='/accounts/login/')
+def addContact(request):
+    context={}
+    return render(request, 'neighbour_app/addcontact.html',context)
