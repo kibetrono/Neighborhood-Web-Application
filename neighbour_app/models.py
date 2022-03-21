@@ -13,4 +13,12 @@ class Category(models.Model):
     class Meta:
         ordering=['-updated_at','-created_at']
 
-    
+    def save_category(self):
+        self.save()
+
+
+    def delete_category(self):
+        self.delete()
+
+    def __str__(self):
+        return self.name
