@@ -14,9 +14,7 @@ def home(request):
         all_posts = Post.objects.all().order_by("-created_at")
         context={'posts': all_posts}
         return render(request, 'neighbour_app/home.html', context)
- 
-
-    
+     
 @login_required(login_url='/accounts/login/')
 def my_profile(request):
     current_user = request.user
@@ -30,14 +28,12 @@ def my_profile(request):
     context={'profile': profile, 'posts': posts, 'locations': locations, 'neighbourhood': neighbourhood, 'categories': category, 'businesses': businesses, 'contacts': contacts}
     return render(request, 'neighbour_app/new_profile.html', context)
 
-
 @login_required(login_url='/accounts/login/')
 def update_profile_form(request):
     neighbourhood = Neighbourhood.objects.all()
     locations = Location.objects.all()
     context={'locations': locations, 'neighbourhood': neighbourhood}
     return render(request, 'neighbour_app/updateProfile.html',context)
-
 
 @login_required(login_url='/accounts/login/')
 def update_profile(request):
@@ -100,13 +96,10 @@ def addBusiness(request):
     context={}
     return render(request, 'neighbour_app/addbusiness.html',context)
 
-
-
 @login_required(login_url='/accounts/login/')
 def addContact(request):
     context={}
     return render(request, 'neighbour_app/addcontact.html',context)
-
 
 
 # create post
@@ -149,7 +142,6 @@ def new_post(request):
         return render(request, "neighbour_app/new_profile.html")
 
 
-
 @login_required(login_url="/accounts/login/")
 def save_business(request):
     if request.method == "POST":
@@ -183,7 +175,6 @@ def save_business(request):
         return redirect("/profile")
     else:
         return render(request, "neighbour_app/new_profile.html")
-
 
 
 @login_required(login_url="/accounts/login/")
@@ -221,6 +212,27 @@ def save_contact(request):
         return render(request, "neighbour_app/new_profile.html")
 
 
+@login_required(login_url="/accounts/login/")
+def alerts(request):
+    current_user = request.user
+    profile = UserProfile.objects.filter(user_id=current_user.id).first()
+    if profile is None:
+        profile = UserProfile.objects.filter(user_id=current_user.id).first()  
+        posts = Post.objects.filter(user_id=current_user.id)
+        locations = Location.objects.all()
+        neighbourhood = Neighbourhood.objects.all()
+        category = Category.objects.all()
+        businesses = Business.objects.filter(user_id=current_user.id)
+        contacts = Contact.objects.filter(user_id=current_user.id)
+        context= {"locations": locations, "neighbourhood": neighbourhood, "categories": category, "businesses": businesses, "contacts": contacts, "posts": posts}
+        return render(request, "neighbour_app/new_profile.html",context)
+    else:
+        neighbourhood = profile.neighbourhood
+        category = Category.objects.get(name="alerts")
+        posts = Post.objects.filter(neighbourhood=neighbourhood, category=category).order_by("-created_at")
+        context={"posts": posts}
+        return render(request, "neighbour_app/notifications.html", context)
+
 
 @login_required(login_url="/accounts/login/")
 def business(request):
@@ -242,7 +254,6 @@ def business(request):
         businesses = Business.objects.filter(neighbourhood=profile.neighbourhood)
         context={"businesses": businesses}
         return render(request, "neighbour_app/business.html", context)
-
 
 
 @login_required(login_url="/accounts/login/")
