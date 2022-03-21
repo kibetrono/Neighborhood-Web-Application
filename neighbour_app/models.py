@@ -123,3 +123,18 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Business(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering=['-updated_at','-created_at']
+
+    
