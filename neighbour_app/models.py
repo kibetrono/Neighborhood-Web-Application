@@ -35,3 +35,13 @@ class Location(models.Model):
 
     class Meta:
         ordering=['-updated_at','-created_at']
+
+    def save_location(self):
+        self.save()
+
+
+    def delete_location(self):
+        self.delete()
+
+    def __str__(self):
+        return self.name
