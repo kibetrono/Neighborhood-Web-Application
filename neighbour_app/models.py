@@ -16,6 +16,10 @@ class Category(models.Model):
     def save_category(self):
         self.save()
 
+    def update_category(self,name,description):
+        self.name=name
+        self.description=description
+        self.save()
 
     def delete_category(self):
         self.delete()
