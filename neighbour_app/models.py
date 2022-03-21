@@ -110,7 +110,13 @@ class UserProfile(models.Model):
     def save_userProfile(self):
         self.save()
 
-  
+    def update_userProfile(self,name,email,location,neighbourhood,profile_pic):
+        self.name=name
+        self.email=email
+        self.location=location
+        self.neighbourhood=neighbourhood
+        self.profile_pic=profile_pic
+        self.save()
 
     def delete_userProfile(self):
         self.delete()
