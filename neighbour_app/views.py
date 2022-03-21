@@ -29,3 +29,11 @@ def my_profile(request):
     contacts = Contact.objects.filter(user_id=current_user.id)
     context={'profile': profile, 'posts': posts, 'locations': locations, 'neighbourhood': neighbourhood, 'categories': category, 'businesses': businesses, 'contacts': contacts}
     return render(request, 'neighbour_app/new_profile.html', context)
+
+
+@login_required(login_url='/accounts/login/')
+def update_profile_form(request):
+    neighbourhood = Neighbourhood.objects.all()
+    locations = Location.objects.all()
+    context={'locations': locations, 'neighbourhood': neighbourhood}
+    return render(request, 'neighbour_app/updateProfile.html',context)
