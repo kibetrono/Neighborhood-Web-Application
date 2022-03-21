@@ -164,3 +164,40 @@ class Business(models.Model):
 
     def __str__(self):
         return self.name
+
+class Contact(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100, blank=True, null=True)
+    telephone = models.CharField(max_length=100)
+    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    class Meta:
+        ordering=['-updated_at','-created_at']
+
+    def save_contact(self):
+        self.save()
+
+    def update_contact(self,name,telephone,email,user,neighbourhood):
+        self.name=name
+        self.email=email
+        self.telephone=telephone
+        self.user=user
+        self.neighbourhood=neighbourhood
+        self.save()
+
+    def delete_contact(self):
+        self.delete()
+
+    @classmethod
+    def search_by_name(cls, search_term):
+        contact = cls.objects.filter(name__icontains=search_term)
+        return contact
+
+
+    def __str__(self):
+        return self.name
+
