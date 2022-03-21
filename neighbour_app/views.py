@@ -94,3 +94,8 @@ def addPost(request):
     category = Category.objects.all()
     context={'locations': locations,  'categories': category}
     return render(request, 'neighbour_app/addpost.html',context)
+
+@login_required(login_url='/accounts/login/')
+def addBusiness(request):
+    context={}
+    return render(request, 'neighbour_app/addbusiness.html',context)
