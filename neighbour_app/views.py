@@ -106,3 +106,45 @@ def addBusiness(request):
 def addContact(request):
     context={}
     return render(request, 'neighbour_app/addcontact.html',context)
+
+
+
+# create post
+@login_required(login_url="/accounts/login/")
+def new_post(request):
+    if request.method == "POST":
+        current_user = request.user
+        title = request.POST["title"]
+        content = request.POST["content"]
+        category = request.POST["category"]
+        location = request.POST["location"]
+        profile = UserProfile.objects.filter(user_id=current_user.id).first()
+        
+        if category == "":
+            category = None
+        else:
+            category = Category.objects.get(name=category)
+
+        if location == "":
+            location = None
+        else:
+            location = Location.objects.get(name=location)
+
+        if request.FILES:
+            image = request.FILES["image"]
+            image = cloudinary.uploader.upload(image, crop="limit", width=800, height=600)
+            image_url = image["url"]
+
+            post = Post(user_id=current_user.id,title=title,content=content,image=image_url,category=category,location=location)
+            post.save_post()
+
+            return redirect("/profile")
+        else:
+            post = Post(user_id=current_user.id,title=title,content=content,category=category,location=location)
+            post.save_post()
+
+            return redirect("/profile")
+
+    else:
+        return render(request, "neighbour_app/new_profile.html")
+
