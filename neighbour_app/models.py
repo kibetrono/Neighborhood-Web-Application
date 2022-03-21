@@ -27,7 +27,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
 class Location(models.Model):
     name = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,7 +49,6 @@ class Location(models.Model):
         return self.name
 
 
-
 class Neighbourhood(models.Model):
     name = models.CharField(max_length=70)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
@@ -61,7 +59,6 @@ class Neighbourhood(models.Model):
 
     class Meta:
         ordering=['-updated_at','-created_at']
-
 
     def save_neigborhood(self):
         self.save()
@@ -165,6 +162,7 @@ class Business(models.Model):
     def __str__(self):
         return self.name
 
+
 class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -201,3 +199,42 @@ class Contact(models.Model):
     def __str__(self):
         return self.name
 
+
+class Post(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=100)
+    content = models.TextField(blank=True, null=True)
+    image = CloudinaryField('image', blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering=['-updated_at','-created_at']
+
+    def save_post(self):
+        self.save()
+
+    def update_post(self,category,title,content,image,user,location,neighbourhood):
+        self.category=category
+        self.title=title
+        self.content=content
+        self.image=image
+        self.user=user
+        self.location=location
+        self.neighbourhood=neighbourhood
+        self.save()
+
+    def delete_post(self):
+        self.delete()
+
+    @classmethod
+    def search_by_title(cls, search_term):
+        post = cls.objects.filter(title__icontains=search_term)
+        return post
+
+
+    def __str__(self):
+        return self.title
