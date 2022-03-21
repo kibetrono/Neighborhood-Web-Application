@@ -15,3 +15,17 @@ def home(request):
         context={'posts': all_posts}
         return render(request, 'neighbour_app/home.html', context)
  
+
+    
+@login_required(login_url='/accounts/login/')
+def my_profile(request):
+    current_user = request.user
+    profile = UserProfile.objects.filter(user_id=current_user.id).first() 
+    posts = Post.objects.filter(user_id=current_user.id)
+    locations = Location.objects.all()
+    neighbourhood = Neighbourhood.objects.all()
+    category = Category.objects.all()
+    businesses = Business.objects.filter(user_id=current_user.id)
+    contacts = Contact.objects.filter(user_id=current_user.id)
+    context={'profile': profile, 'posts': posts, 'locations': locations, 'neighbourhood': neighbourhood, 'categories': category, 'businesses': businesses, 'contacts': contacts}
+    return render(request, 'neighbour_app/new_profile.html', context)
